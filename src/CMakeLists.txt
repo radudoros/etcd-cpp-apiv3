@@ -12,3 +12,28 @@ install (FILES ../etcd/Client.hpp
                ../etcd/Watcher.hpp
                DESTINATION include/etcd)
 
+set(V3_DIR ../v3/include)
+set(V3_INCLUDES
+  ${V3_DIR}/action_constants.hpp
+  ${V3_DIR}/Action.hpp
+  ${V3_DIR}/AsyncCompareAndDeleteAction.hpp
+  ${V3_DIR}/AsyncCompareAndSwapAction.hpp
+  ${V3_DIR}/AsyncDeleteAction.hpp
+  ${V3_DIR}/AsyncDeleteRangeResponse.hpp
+  ${V3_DIR}/AsyncGetAction.hpp
+  ${V3_DIR}/AsyncLeaseGrantAction.hpp
+  ${V3_DIR}/AsyncLeaseGrantResponse.hpp
+  ${V3_DIR}/AsyncRangeResponse.hpp
+  ${V3_DIR}/AsyncSetAction.hpp
+  ${V3_DIR}/AsyncTxnResponse.hpp
+  ${V3_DIR}/AsyncUpdateAction.hpp
+  ${V3_DIR}/AsyncWatchAction.hpp
+  ${V3_DIR}/AsyncWatchResponse.hpp
+  ${V3_DIR}/KeyValue.hpp
+  ${V3_DIR}/Transaction.hpp
+  ${V3_DIR}/V3Response.hpp
+  )
+
+install (FILES ${V3_INCLUDES}
+               DESTINATION include/v3/include)
+

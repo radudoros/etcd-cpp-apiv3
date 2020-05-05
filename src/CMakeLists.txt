@@ -56,7 +56,11 @@ add_library(etcd-cpp-api SHARED
   SyncClient.cpp
   Value.cpp
   Watcher.cpp)
+
 set_property(TARGET etcd-cpp-api PROPERTY CXX_STANDARD 17)
+if(MSVC)
+  set_target_properties(etcd-cpp-api PROPERTIES LINK_FLAGS "/ignore:4251")
+endif()
 
 target_link_libraries(etcd-cpp-api ${OPENSSL_LIBRARIES} cpprestsdk::cpprest ${Boost_SYSTEM_LIBRARY} ${Protobuf_LIBRARIES} gRPC::grpc++)
 

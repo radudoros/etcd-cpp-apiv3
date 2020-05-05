@@ -8,9 +8,14 @@ set (etcd-cpp-api_VERSION_MINOR 1)
 
 enable_testing()
 
-include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR} ${CPPREST_INCLUDE_DIR} ${Boost_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wpedantic -Werror -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
+if(MSVC)
+  
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpedantic -Werror -std=c++17")
+endif()
 
 add_subdirectory(src)
 

@@ -67,7 +67,9 @@ add_library(etcd-cpp-api SHARED
   Value.cpp
   Watcher.cpp)
 
-set_property(TARGET etcd-cpp-api PROPERTY CXX_STANDARD 17)
+# TODO: find a way to build external_projects with CXX_STANDARD 17
+# set_property(TARGET etcd-cpp-api PROPERTY CXX_STANDARD 17)
+
 if(MSVC)
   set_target_properties(etcd-cpp-api PROPERTIES LINK_FLAGS "/ignore:4251")
 endif()

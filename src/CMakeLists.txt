@@ -72,10 +72,6 @@ add_library(etcd-cpp-api SHARED
 # TODO: find a way to build external_projects with CXX_STANDARD 17
 # set_property(TARGET etcd-cpp-api PROPERTY CXX_STANDARD 17)
 
-if(MSVC)
-  set_target_properties(etcd-cpp-api PROPERTIES LINK_FLAGS "/ignore:4251")
-endif()
-
 target_link_libraries(etcd-cpp-api ${Boost_SYSTEM_LIBRARY} ${CPPREST_LIB} ${GRPCPP_LIBRARIES} ${OPENSSL_LIBRARIES} ${Protobuf_LIBRARIES})
 target_include_directories(etcd-cpp-api PRIVATE ${CPPREST_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR} ${Protobuf_INCLUDE_DIRS})
 

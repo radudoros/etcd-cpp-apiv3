@@ -12,7 +12,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 if(MSVC)
-
+  # Protobuf documents the following warnings as ignored by them:
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4251 /wd4996 /wd4244")
 else()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wpedantic -Werror -std=c++17")
 endif()

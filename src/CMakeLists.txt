@@ -1,8 +1,9 @@
 find_package(Boost REQUIRED COMPONENTS system thread locale random)
 
 find_package(gRPC)
+if(${gRPC_FOUND})
   set(GRPCPP_LIBRARIES gRPC::grpc++)
-if(NOT ${gRPC_FOUND})
+else()
   message("Falling back to finding gRPC with pkg-config")
   find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
   if (NOT GRPC_CPP_PLUGIN)

@@ -1,13 +1,23 @@
 find_package(Boost REQUIRED COMPONENTS system thread locale random)
-find_package(cpprestsdk REQUIRED)
-find_package(gRPC CONFIG REQUIRED)
+
+find_package(gRPC)
+if(NOT ${gRPC_FOUND})
+  message("Falling back to finding gRPC with pkg-config")
+  find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
+  if (NOT GRPC_CPP_PLUGIN)
+    message(FATAL_ERROR "grpc_cpp_plugin not found!")
+  endif()
+  find_package(PkgConfig REQUIRED)
+  pkg_search_module(GRPC REQUIRED grpc)
+  pkg_search_module(GRPCPP REQUIRED grpc++)
+  list(APPEND LIGHTSTEP_LINK_LIBRARIES ${GRPCPP_LDFLAGS} ${GRPC_LDFLAGS})
+endif()
+
 find_package(OpenSSL 1.0.0 REQUIRED)
 find_package(Protobuf REQUIRED)
 
 find_program(PROTOBUF_PROTOC protoc)
 find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
-
-include_directories(${Protobuf_INCLUDE_DIRS})
 
 add_custom_command(
   OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/../proto/rpc.grpc.pb.cc" "${CMAKE_CURRENT_SOURCE_DIR}/../proto/rpc.grpc.pb.h"
@@ -62,7 +72,8 @@ if(MSVC)
   set_target_properties(etcd-cpp-api PROPERTIES LINK_FLAGS "/ignore:4251")
 endif()
 
-target_link_libraries(etcd-cpp-api ${OPENSSL_LIBRARIES} cpprestsdk::cpprest ${Boost_SYSTEM_LIBRARY} ${Protobuf_LIBRARIES} gRPC::grpc++)
+target_link_libraries(etcd-cpp-api ${OPENSSL_LIBRARIES} ${CPPREST_LIB} ${Boost_SYSTEM_LIBRARY} ${Protobuf_LIBRARIES} ${LIGHTSTEP_LINK_LIBRARIES})
+target_include_directories(etcd-cpp-api PRIVATE ${CPPREST_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR} ${Protobuf_INCLUDE_DIRS})
 
 install (TARGETS etcd-cpp-api DESTINATION lib)
 install (FILES ../etcd/Client.hpp
